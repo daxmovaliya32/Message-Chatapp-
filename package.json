@@ -22,10 +22,12 @@
     "express-validator": "^6.14.2",
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^5.13.15",
+    "mongoose": "^6.8.4",
     "nodemon": "^2.0.20",
     "routes": "^2.1.0",
     "session": "^0.1.0",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4",
     "validator": "^13.7.0"
   }
 }

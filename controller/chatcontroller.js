@@ -26,7 +26,7 @@ module.exports.accesschat = async(req,res)=>{
 
     if(ischat.length>0)
     {
-        res.send(ischat[0]);
+        res.send(ischat);
     }else{
         var chatdata = {
             Chatname:"sendar",
