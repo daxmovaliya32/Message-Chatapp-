@@ -10,9 +10,11 @@ app.use(cors());
 const userroutes = require("./routes/userroutes");
 const authroutes = require("./routes/authroute");
 const chatroutes = require("./routes/chatroute");
+const messageroutes = require("./routes/messageroute");
 app.use("/api/user",userroutes)
 app.use("/api/user",authroutes)
 app.use("/api/chat",chatroutes)
+app.use("/api/message",messageroutes)
 
 
 app.listen(port,(error)=>{
