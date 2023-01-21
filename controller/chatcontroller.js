@@ -1,10 +1,17 @@
 const chats = require("../models/chat");
 const user = require("../models/user");
+const io = require("socket.io-client");
 
 module.exports.accesschat = async(req,res)=>{
-    const loginuser=req.body.userdata;
-    console.log(loginuser._id);
+    const loginuser=req.body.userdata; 
+    // console.log(loginuser._id);
     const {userid} = req.body;
+    const endpoint = "http://localhost:5000";
+
+    const socket = io(endpoint);
+    socket.on("connection",()=>setSocketConnected(true))
+    socket.emit('setup',loginuser._id);
+    
     if(!userid)
     {
         console.log("userid param not sent with reuest")
@@ -26,7 +33,7 @@ module.exports.accesschat = async(req,res)=>{
 
     if(ischat.length>0)
     {
-        res.send(ischat);
+        res.send(ischat[0]);
     }else{
         var chatdata = {
             Chatname:"sendar",

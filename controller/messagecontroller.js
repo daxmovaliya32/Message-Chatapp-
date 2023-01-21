@@ -2,19 +2,10 @@
 const {Messagemodel} = require("../models/message");
 const chat = require("../models/chat");
 const user = require("../models/user");
+const io = require("socket.io-client");
 
 module.exports.sendmessage = async(req,res)=>{
-    const sio = require("socket.io")(server,{
-        pingTimeout : 60000,
-        cors:{
-          origin:"http://localhost:5000"
-        }
-      })
-      
-      sio.on("connection",(Socket)=>{
-        console.log("connection success for connectin socket.io ");
-        
-      })
+   
     const{chatid,content} = req.body;
     if(!chatid || !content)
     {
@@ -49,6 +40,10 @@ module.exports.sendmessage = async(req,res)=>{
 module.exports.allmessage = async(req,res)=>{
 
     try {
+        const endpoint = "http://localhost:5000";
+        const socket = io(endpoint);
+        socket.emit('join chat',req.body.userdata._id);
+        
         var message = await Messagemodel.find({chats:req.params.chatid})
         .populate("sender","name pic")
         .populate("chats")

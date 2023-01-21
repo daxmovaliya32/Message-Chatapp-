@@ -27,12 +27,26 @@ const server = app.listen(port,(error)=>{
 // socketio for chat app
 const io = require("socket.io-client");
 
-const endpoint = "http://localhost:5000";
-
-const socket = io(endpoint);
-socket.on("setup",(userdata)=>{
-  socket.join(userdata._id);
-  socket.emit("connected");
+const sio = require("socket.io")(server,{
+  pingTimeout : 60000,
+  cors:{
+    origin:"http://localhost:5000"
+  }
 })
+
+sio.on("connection",(socket)=>{
+  console.log("connection success for connectin socket.io ");
+  socket.on('setup',(userdata)=>{
+    socket.join(userdata._id);
+    socket.emit("connected")
+  })
+
+  socket.on('join chat',(room)=>{
+    socket.join(room);
+    console.log("user joined room:"+ room);
+  })
+})
+
+
 
 
