@@ -41,9 +41,9 @@ sio.on("connection",(socket)=>{
     socket.emit("connected")
   })
 
-  socket.on('join chat',(room)=>{
-    socket.join(room);
-    console.log("user joined room:"+ room);
+  socket.on('join chat',(chat)=>{
+    socket.join(chat);
+    console.log("user joined chat:"+ chat);
   })
 
   socket.on('new message',(newmessagerecived)=>{

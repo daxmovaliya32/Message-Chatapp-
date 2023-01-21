@@ -42,6 +42,7 @@ module.exports.sendmessage = async(req,res)=>{
 module.exports.allmessage = async(req,res)=>{
 
     try {
+       
         socket.emit('join chat',req.body.userdata._id);
         
         var message = await Messagemodel.find({chats:req.params.chatid})
