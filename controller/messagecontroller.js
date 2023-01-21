@@ -3,7 +3,8 @@ const {Messagemodel} = require("../models/message");
 const chat = require("../models/chat");
 const user = require("../models/user");
 const io = require("socket.io-client");
-
+const endpoint = "http://localhost:5000";
+const socket = io(endpoint);
 module.exports.sendmessage = async(req,res)=>{
    
     const{chatid,content} = req.body;
@@ -29,6 +30,7 @@ module.exports.sendmessage = async(req,res)=>{
         await chat.findByIdAndUpdate({_id:chatid},{
             latestMessage:messagedata
         })
+        socket.emit('new message',messagedata);
         res.status(200).send(messagedata)
 
     } catch (error) {
@@ -40,8 +42,6 @@ module.exports.sendmessage = async(req,res)=>{
 module.exports.allmessage = async(req,res)=>{
 
     try {
-        const endpoint = "http://localhost:5000";
-        const socket = io(endpoint);
         socket.emit('join chat',req.body.userdata._id);
         
         var message = await Messagemodel.find({chats:req.params.chatid})

@@ -21,7 +21,7 @@ app.use("/api/message",messageroutes)
 const server = app.listen(port,(error)=>{
     if(error)
       console.log(error);
-    console.log("server running on port 8000");
+    console.log(`server running on port ${port}`);
 });
 
 // socketio for chat app
@@ -44,6 +44,16 @@ sio.on("connection",(socket)=>{
   socket.on('join chat',(room)=>{
     socket.join(room);
     console.log("user joined room:"+ room);
+  })
+
+  socket.on('new message',(newmessagerecived)=>{
+    var chat = newmessagerecived.chats;
+    if(!chat.users)return console.log("user not found");
+    chat.users.forEach((user) => {
+         if(user._id == newmessagerecived.sender._id) return;
+         socket.in(user._id).emit("message recive",newmessagerecived)
+         console.log("all group user or single user"+user._id);
+    });
   })
 })
 
